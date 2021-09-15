@@ -6,6 +6,7 @@
 # 欢迎来到源码仓库
 
 - [熊猫 code](https://pandacode.cn)
+- [源码解读](https://doc.pandacode.cn/pages/04607b/)
 
 # 介绍
 
