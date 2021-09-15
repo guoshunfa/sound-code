@@ -1,0 +1,126 @@
+package javax.swing.plaf.metal;
+
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
+import javax.swing.JComponent;
+import javax.swing.UIManager;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicToggleButtonUI;
+import sun.awt.AppContext;
+import sun.swing.SwingUtilities2;
+
+public class MetalToggleButtonUI extends BasicToggleButtonUI {
+   private static final Object METAL_TOGGLE_BUTTON_UI_KEY = new Object();
+   protected Color focusColor;
+   protected Color selectColor;
+   protected Color disabledTextColor;
+   private boolean defaults_initialized = false;
+
+   public static ComponentUI createUI(JComponent var0) {
+      AppContext var1 = AppContext.getAppContext();
+      MetalToggleButtonUI var2 = (MetalToggleButtonUI)var1.get(METAL_TOGGLE_BUTTON_UI_KEY);
+      if (var2 == null) {
+         var2 = new MetalToggleButtonUI();
+         var1.put(METAL_TOGGLE_BUTTON_UI_KEY, var2);
+      }
+
+      return var2;
+   }
+
+   public void installDefaults(AbstractButton var1) {
+      super.installDefaults(var1);
+      if (!this.defaults_initialized) {
+         this.focusColor = UIManager.getColor(this.getPropertyPrefix() + "focus");
+         this.selectColor = UIManager.getColor(this.getPropertyPrefix() + "select");
+         this.disabledTextColor = UIManager.getColor(this.getPropertyPrefix() + "disabledText");
+         this.defaults_initialized = true;
+      }
+
+   }
+
+   protected void uninstallDefaults(AbstractButton var1) {
+      super.uninstallDefaults(var1);
+      this.defaults_initialized = false;
+   }
+
+   protected Color getSelectColor() {
+      return this.selectColor;
+   }
+
+   protected Color getDisabledTextColor() {
+      return this.disabledTextColor;
+   }
+
+   protected Color getFocusColor() {
+      return this.focusColor;
+   }
+
+   public void update(Graphics var1, JComponent var2) {
+      AbstractButton var3 = (AbstractButton)var2;
+      if (var2.getBackground() instanceof UIResource && var3.isContentAreaFilled() && var2.isEnabled()) {
+         ButtonModel var4 = var3.getModel();
+         if (!MetalUtils.isToolBarButton(var2)) {
+            if (!var4.isArmed() && !var4.isPressed() && MetalUtils.drawGradient(var2, var1, "ToggleButton.gradient", 0, 0, var2.getWidth(), var2.getHeight(), true)) {
+               this.paint(var1, var2);
+               return;
+            }
+         } else if ((var4.isRollover() || var4.isSelected()) && MetalUtils.drawGradient(var2, var1, "ToggleButton.gradient", 0, 0, var2.getWidth(), var2.getHeight(), true)) {
+            this.paint(var1, var2);
+            return;
+         }
+      }
+
+      super.update(var1, var2);
+   }
+
+   protected void paintButtonPressed(Graphics var1, AbstractButton var2) {
+      if (var2.isContentAreaFilled()) {
+         var1.setColor(this.getSelectColor());
+         var1.fillRect(0, 0, var2.getWidth(), var2.getHeight());
+      }
+
+   }
+
+   protected void paintText(Graphics var1, JComponent var2, Rectangle var3, String var4) {
+      AbstractButton var5 = (AbstractButton)var2;
+      ButtonModel var6 = var5.getModel();
+      FontMetrics var7 = SwingUtilities2.getFontMetrics(var5, (Graphics)var1);
+      int var8 = var5.getDisplayedMnemonicIndex();
+      if (var6.isEnabled()) {
+         var1.setColor(var5.getForeground());
+      } else if (var6.isSelected()) {
+         var1.setColor(var2.getBackground());
+      } else {
+         var1.setColor(this.getDisabledTextColor());
+      }
+
+      SwingUtilities2.drawStringUnderlineCharAt(var2, var1, var4, var8, var3.x, var3.y + var7.getAscent());
+   }
+
+   protected void paintFocus(Graphics var1, AbstractButton var2, Rectangle var3, Rectangle var4, Rectangle var5) {
+      Rectangle var6 = new Rectangle();
+      String var7 = var2.getText();
+      boolean var8 = var2.getIcon() != null;
+      if (var7 != null && !var7.equals("")) {
+         if (!var8) {
+            var6.setBounds(var4);
+         } else {
+            var6.setBounds(var5.union(var4));
+         }
+      } else if (var8) {
+         var6.setBounds(var5);
+      }
+
+      var1.setColor(this.getFocusColor());
+      var1.drawRect(var6.x - 1, var6.y - 1, var6.width + 1, var6.height + 1);
+   }
+
+   protected void paintIcon(Graphics var1, AbstractButton var2, Rectangle var3) {
+      super.paintIcon(var1, var2, var3);
+   }
+}

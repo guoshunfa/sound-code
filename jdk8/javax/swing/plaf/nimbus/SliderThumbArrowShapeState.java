@@ -1,0 +1,13 @@
+package javax.swing.plaf.nimbus;
+
+import javax.swing.JComponent;
+
+class SliderThumbArrowShapeState extends State {
+   SliderThumbArrowShapeState() {
+      super("ArrowShape");
+   }
+
+   protected boolean isInState(JComponent var1) {
+      return var1.getClientProperty("Slider.paintThumbArrowShape") == Boolean.TRUE;
+   }
+}

@@ -1,0 +1,21 @@
+package sun.security.krb5.internal.ccache;
+
+public interface FileCCacheConstants {
+   int KRB5_FCC_FVNO_1 = 1281;
+   int KRB5_FCC_FVNO_2 = 1282;
+   int KRB5_FCC_FVNO_3 = 1283;
+   int KRB5_FCC_FVNO_4 = 1284;
+   int FCC_TAG_DELTATIME = 1;
+   int KRB5_NT_UNKNOWN = 0;
+   int TKT_FLG_FORWARDABLE = 1073741824;
+   int TKT_FLG_FORWARDED = 536870912;
+   int TKT_FLG_PROXIABLE = 268435456;
+   int TKT_FLG_PROXY = 134217728;
+   int TKT_FLG_MAY_POSTDATE = 67108864;
+   int TKT_FLG_POSTDATED = 33554432;
+   int TKT_FLG_INVALID = 16777216;
+   int TKT_FLG_RENEWABLE = 8388608;
+   int TKT_FLG_INITIAL = 4194304;
+   int TKT_FLG_PRE_AUTH = 2097152;
+   int TKT_FLG_HW_AUTH = 1048576;
+}

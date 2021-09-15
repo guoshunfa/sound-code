@@ -1,0 +1,12 @@
+package com.sun.corba.se.pept.encoding;
+
+import com.sun.corba.se.pept.protocol.MessageMediator;
+import java.io.IOException;
+
+public interface OutputObject {
+   void setMessageMediator(MessageMediator var1);
+
+   MessageMediator getMessageMediator();
+
+   void close() throws IOException;
+}
